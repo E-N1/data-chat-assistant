@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from 'react';
-import ChatSidebar from '../components/chat-sidebar';
 import ChatWindow from '../components/chat-window';
 import MessageInput from '../components/message-input';
  
@@ -18,9 +17,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="h-screen flex">
-      <ChatSidebar chats={chats} onSelectChat={setSelectedChat} />
       <div className="flex flex-col flex-grow">
-        wTestwadawdawdawdadwdwaaaaaaaaa
         <ChatWindow messages={messages} />
         <MessageInput onSendMessage={handleSendMessage} />
       </div>
