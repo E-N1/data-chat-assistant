@@ -1,8 +1,23 @@
 -- Extensions
 CREATE EXTENSION IF NOT EXISTS vector;
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
--- Username and Password
-ALTER USER data_chat_assistant WITH PASSWORD '1234567890';
+
+-- Roles and Permissions
+CREATE ROLE data_chat_assistant WITH LOGIN PASSWORD '1234567890';
+
+
+GRANT CONNECT ON DATABASE assistant_template TO data_chat_assistant;
+
+GRANT USAGE ON SCHEMA public TO data_chat_assistant;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO data_chat_assistant;
+
+
+-- GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO data_chat_assistant;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO data_chat_assistant;
+
+ALTER ROLE data_chat_assistant CREATEDB;
 
 -- CHATS
 CREATE TABLE chats (
@@ -121,4 +136,11 @@ CREATE TRIGGER update_chats_timestamp
 BEFORE UPDATE ON chats
 FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
+
+
+
+-- First Chat
+INSERT INTO chats (id, title, created_at, updated_at)
+VALUES (gen_random_uuid(), 'Mein erster Chat', NOW(), NOW());
+
 

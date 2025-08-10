@@ -35,6 +35,48 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
+# Database Setup Guide
+
+This guide shows you how to create the database schema locally using the provided `schema.sql` file.
+
+---
+
+## Prerequisites
+
+- PostgreSQL installed and running locally  
+- Access to the `psql` command-line tool  
+- Database username and password  
+
+---
+
+## Step 1: Create a New Database
+
+Create a new empty database, for example `assistant_template`:
+
+```bash
+createdb assistant_template
+```
+
+If this command doesn’t work, you can create the database inside psql:
+```sql
+CREATE DATABASE assistant_template;
+```
+
+## Step 2: Import the Schema
+Import the database schema from the schema.sql file:
+```sql
+psql -d assistant_template -f database/schema.sql
+```
+
+## Step 3: Verify Connection
+Connect to your database to verify everything is set up correctly:
+```sql
+psql -d assistant_template
+```
+To check if the tables were created successfully, run:
+```sql
+\dt
+```
 
 ### Database
 
@@ -61,4 +103,10 @@ ALTER USER data_chat_assistant WITH PASSWORD 'your_new_password';
 To connect to the database assistant_template with the default user:
 ```sql
 psql -U data_chat_assistant -d assistant_template
+```
+
+
+## Prisma:
+```
+npx prisma migrate dev --name init
 ```
