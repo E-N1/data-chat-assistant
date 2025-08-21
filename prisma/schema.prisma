@@ -20,15 +20,30 @@ model Chat {
   
 }
 
-
-// Supabase:
-
-generator client {
-  provider = "prisma-client-js"
+model Message {
+  id        String   @id @default(uuid())
+  chatId    String
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  role      String   // 'user', 'assistant', 'system'
+  content   String
+  metadata  Json?
+  createdAt DateTime @default(now())
 }
 
-datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+model Memory {
+  id         String   @id @default(uuid())
+  fact       String
+  type       String?
+  importance Int?
+  createdAt  DateTime @default(now())
+  embedding  Bytes?   // VECTOR(1536) wird als Bytes behandelt
+  messageId  String?
+  message    Message? @relation(fields: [messageId], references: [id])
+}
+
+
+
+// Supabase:
+generator client {
+  provider = "prisma-client-js"
 }
