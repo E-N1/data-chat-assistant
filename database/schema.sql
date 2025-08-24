@@ -4,7 +4,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 
 -- Roles and Permissions
-CREATE ROLE data_chat_assistant WITH LOGIN PASSWORD '1234567890';
+-- CREATE ROLE data_chat_assistant WITH LOGIN PASSWORD '1234567890';
 
 
 GRANT CONNECT ON DATABASE assistant_template TO data_chat_assistant;
@@ -31,7 +31,6 @@ CREATE TABLE chats (
 CREATE TABLE messages (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     chat_id UUID REFERENCES chats(id) ON DELETE CASCADE,
-    role TEXT CHECK (role IN ('user', 'assistant', 'system')),
     content TEXT NOT NULL,
     metadata JSONB,
     created_at TIMESTAMP DEFAULT NOW()

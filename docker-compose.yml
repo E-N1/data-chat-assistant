@@ -21,8 +21,7 @@ services:
     depends_on:
       - db
     env_file:
-      - .env
-      - ${ENV_FILE}   # eg:. .env.development.local oder .env.production
+      - ${ENV_FILE}
     ports:
       - "3000:3000"
     volumes:

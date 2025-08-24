@@ -14,20 +14,20 @@ generator client {
 }
 
 model Chat {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   title     String
-  createdAt DateTime @default(now())
-  
+  createdAt DateTime  @default(now())
+  messages  Message[]
 }
 
 model Message {
   id        String   @id @default(uuid())
   chatId    String
   chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  role      String   // 'user', 'assistant', 'system'
   content   String
   metadata  Json?
   createdAt DateTime @default(now())
+  memories  Memory[]
 }
 
 model Memory {
@@ -36,14 +36,12 @@ model Memory {
   type       String?
   importance Int?
   createdAt  DateTime @default(now())
-  embedding  Bytes?   // VECTOR(1536) wird als Bytes behandelt
+  embedding  Bytes? // VECTOR(1536) is treated as bytes
   messageId  String?
   message    Message? @relation(fields: [messageId], references: [id])
 }
 
-
-
 // Supabase:
-generator client {
-  provider = "prisma-client-js"
-}
+//generator client {
+//  provider = "prisma-client-js"
+//}

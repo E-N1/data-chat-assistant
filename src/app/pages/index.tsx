@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AppSidebar } from '@/components/app-sidebar';
-// import ChatWindow from '../../components/chat-window';
-import MessageInput from '../../components/message-input';
+import ChatWindow from '@components/chat-window';
+import MessageInput from '@components/message-input';
 
 const Home: React.FC = () => {
   const [chats, setChats] = useState([{ id: 1, title: 'Chat with AI Assistant' }]);
