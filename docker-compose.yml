@@ -1,28 +1,34 @@
-version: '3.8'
-
 services:
-  postgres:
-    image: postgres:15
-    container_name: postgres-db
+  db:
+    image: postgres:16
+    container_name: ai_db
+    restart: always
     environment:
-      POSTGRES_USER: test
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: test_db
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
 
-  backend:
-    build: ./backend
-    container_name: Assistant_Backend
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai_nextjs
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - .env
+      - ${ENV_FILE}   # eg:. .env.development.local oder .env.production
     ports:
       - "3000:3000"
-    environment:
-      DATABASE_URL: postgres://test:123456@postgres:5432/test_db
-      OPENAI_API_KEY: dein_api_key
-    depends_on:
-      - postgres
+    volumes:
+      - ./src:/app/src
+      - ./package.json:/app/package.json
+      - /app/node_modules
 
 volumes:
-  postgres_data:
+  db_data:

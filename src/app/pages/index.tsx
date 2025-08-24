@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import ChatSidebar from '../../components/chat-sidebar';
-import ChatWindow from '../../components/chat-window';
+import { AppSidebar } from '@/components/app-sidebar';
+// import ChatWindow from '../../components/chat-window';
 import MessageInput from '../../components/message-input';
 
 const Home: React.FC = () => {
@@ -16,7 +16,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="h-screen flex">
-      <ChatSidebar chats={chats} onSelectChat={setSelectedChat} />
+      <AppSidebar chats={chats} onSelectChat={setSelectedChat} />
       <div className="flex flex-col flex-grow">
         <ChatWindow messages={messages} />
         <MessageInput onSendMessage={handleSendMessage} />
