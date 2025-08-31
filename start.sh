@@ -27,6 +27,7 @@ fi
 # Start Docker Compose
 docker compose --env-file "$ENV_FILE" up --build -d
 
+
 # Check if Postgres service is up
 docker compose exec -T db pg_isready -U $POSTQRE_USER
 

@@ -6,6 +6,10 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
+# Prisma Client für Linux generieren
+COPY prisma ./prisma
+RUN npx prisma generate
+
 # Source Code kopieren
 COPY . .
 
