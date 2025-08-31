@@ -1,3 +1,4 @@
+"use client";
 // components/MessageInput.tsx
 import React, { useState } from 'react';
 

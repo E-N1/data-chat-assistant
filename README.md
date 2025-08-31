@@ -36,4 +36,8 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Database Studio:
 
-With Prisma Studio, you can test your connection to your database
+to connect db:
+
+```
+docker exec -it ai_db psql -U postgres
+```
