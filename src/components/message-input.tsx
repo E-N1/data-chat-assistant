@@ -18,7 +18,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
   };
 
   return (
-    <form className="flex p-4 border-t border-gray-300" onSubmit={handleSubmit}>
+    <form className="flex p-4 border-gray-300" onSubmit={handleSubmit}>
       <input
         type="text"
         value={inputValue}
@@ -28,7 +28,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
       />
       <button
         type="submit"
-        className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        className="ml-10 px-4 py-2 bg-zinc-400 text-white rounded-md hover:bg-zinc-500"
       >
         Send
       </button>

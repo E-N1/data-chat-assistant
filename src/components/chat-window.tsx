@@ -1,4 +1,6 @@
+"use client";
 import React from 'react';
+import MessageInput from './message-input';
 
 type Message = {
   sender: 'user' | 'assistant';
@@ -11,19 +13,19 @@ type ChatWindowProps = {
 
 const ChatWindow: React.FC<ChatWindowProps> = ({ messages }) => {
   return (
-    <div className="flex-grow bg-white p-4 border-b border-gray-300 overflow-y-auto">
+    <div className="flex-1 overflow-y-auto p-4 space-y-2">
       {messages.map((message, index) => (
         <div
           key={index}
-          className={`mb-2 p-2 ${
-            message.sender === 'user' ? 'text-right' : 'text-left'
+          className={`flex ${
+            message.sender === "user" ? "justify-end" : "justify-start"
           }`}
         >
           <span
             className={`inline-block p-2 rounded-md ${
-              message.sender === 'user'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-300 text-black'
+              message.sender === "user"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-300 text-black"
             }`}
           >
             {message.text}
