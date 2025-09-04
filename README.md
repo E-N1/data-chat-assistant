@@ -39,5 +39,5 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 to connect db:
 
 ```
-docker exec -it ai_db psql -U postgres
+docker exec -it <container_name> psql -U postgres
 ```

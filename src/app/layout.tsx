@@ -16,29 +16,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const messages = [
-  { sender: "assistant", text: "Test: DB ENTRIES COMING SOON" },
-  { sender: "assistant", text: "Hello, how can I help you?" },
-  { sender: "user", text: "What is my tax number? Can you crawl my data?" },
-  { sender: "assistant", text: "12121221/121212/232332" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-  { sender: "assistant", text: "TEST" },
-
-  { sender: "user", text: "Wow! so easy. Thank you" },
-];
 
 export const metadata: Metadata = {
   title: "AI Knowledge Assistant",

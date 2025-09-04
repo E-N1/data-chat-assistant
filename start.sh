@@ -29,12 +29,14 @@ docker compose --env-file "$ENV_FILE" up --build -d
 
 
 # Check if Postgres service is up
-docker compose exec -T db pg_isready -U $POSTQRE_USER
+docker compose exec -T db pg_isready -U $POSTGRE_USER
 
 # Wait for Postgres to be ready
 echo "Waiting for database to be ready..."
-
-  sleep 5
+until docker compose exec -T db pg_isready -U $POSTGRES_USER -d $POSTGRES_DB > /dev/null 2>&1; do
+  echo "Waiting..."
+  sleep 1
+done
 echo "Database is ready!"
 
 # Apply Prisma migrations

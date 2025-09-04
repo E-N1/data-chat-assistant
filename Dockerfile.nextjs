@@ -2,15 +2,15 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Dependencies installieren
+# Dependencies installing
 COPY package*.json ./
 RUN npm install
 
-# Prisma Client für Linux generieren
+# Generating Prisma Client for Linux 
 COPY prisma ./prisma
 RUN npx prisma generate
 
-# Source Code kopieren
+# Copy source code 
 COPY . .
 
 EXPOSE 3000

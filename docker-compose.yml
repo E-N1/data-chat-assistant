@@ -1,6 +1,8 @@
 services:
   db:
-    image: postgres:16
+    build:
+      context: .
+      dockerfile: Dockerfile.db
     container_name: ai_db
     restart: always
     environment:
@@ -16,7 +18,7 @@ services:
   nextjs:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.nextjs
     container_name: ai_nextjs
     restart: always
     depends_on:
@@ -29,6 +31,5 @@ services:
       - ./src:/app/src
       - ./package.json:/app/package.json
       - /app/node_modules
-
 volumes:
   db_data:
