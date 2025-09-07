@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS logs (
 );
 
 
-Relationships to chats for memories
+--Relationships to chats for memories
 --If you want a memory to be directly traceable to a chat situation:
 ALTER TABLE memories
 ADD COLUMN message_id UUID REFERENCES messages(id) ON DELETE SET NULL;
@@ -135,7 +135,7 @@ EXECUTE FUNCTION update_timestamp();
 
 -- First Chat
 INSERT INTO chats (id, title, created_at, updated_at)
-VALUES (gen_random_uuid(), 'Mein erster Chat', NOW(), NOW());
+VALUES (gen_random_uuid(), 'My first Chat', NOW(), NOW());
 ON CONFLICT DO NOTHING;
 
 

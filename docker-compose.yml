@@ -14,6 +14,22 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    networks:
+      - dev-network
+      
+  pgadmin:
+    image: dpage/pgadmin4:7
+    container_name: ai_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - dev-network
 
   nextjs:
     build:
@@ -31,5 +47,12 @@ services:
       - ./src:/app/src
       - ./package.json:/app/package.json
       - /app/node_modules
+    networks:
+      - dev-network
+      
 volumes:
   db_data:
+
+networks:
+  dev-network:
+    driver: bridge

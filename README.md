@@ -34,10 +34,26 @@ To learn more about Next.js, take a look at the following resources:
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
 
-## Database Studio:
+## Database:
 
-to connect db:
+to connect database in docker:
 
 ```
-docker exec -it <container_name> psql -U postgres
+docker exec -it <container_name> psql -U postgres -d <database_name>
 ```
+
+
+# PGAdmin
+Connect pgAdmin to your PostgreSQL container:
+
+Name: (anything you like)  
+Host name/address: ai_db (the container name of your Postgres service)  
+Port: 5432
+Username: (from POSTGRES_USER, .env)  
+Password: (from POSTGRES_PASSWORD, .env)  
+Maintenance database / Database: (from POSTGRES_DB, .env)
+
+```
+http://localhost:8080
+```
+

@@ -21,6 +21,7 @@ fi
 # Check if ENV file exists
 if [ ! -f "$ENV_FILE" ]; then
   echo "ENV file $ENV_FILE not found!"
+  echo "Please create it based on .env.template"
   exit 1
 fi
 
@@ -48,4 +49,8 @@ else
   docker compose exec -T nextjs npx prisma migrate deploy
 fi
 
-echo "✅ Done! Next.js is running at http://localhost:3000"
+if [ "$ENV_MODE" == "dev" ]; then
+  echo "Development environment is up and running!"
+  echo "✅ Next.js is running at http://localhost:3000"
+  echo "✅ PGAdmin 4 is running at http://localhost:8080/"
+fi
