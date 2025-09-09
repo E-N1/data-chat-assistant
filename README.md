@@ -39,7 +39,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 to connect database in docker:
 
 ```
-docker exec -it <container_name> psql -U postgres -d <database_name>
+docker exec -it <container_name> psql -U <POSTGRES_USER> -d <POSTGRES_DB>
 ```
 
 

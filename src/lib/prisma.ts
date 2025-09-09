@@ -1,4 +1,3 @@
-// lib/prisma.ts
 import { PrismaClient } from '@prisma/client'
 
 // For Hot Reload(Development Mode)

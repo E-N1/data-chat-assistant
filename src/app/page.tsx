@@ -1,27 +1,30 @@
 "use client";
-import React, { useState } from 'react';
-import ChatWindow from '../components/chat-window';
-import MessageInput from '../components/message-input';
- 
-export default function Home() {
-const Home: React.FC = () => {
-  const [chats, setChats] = useState([{ id: 1, title: 'Chat with AI Assistant' }]);
-  const [selectedChat, setSelectedChat] = useState(chats[0].id);
-  const [messages, setMessages] = useState<{ sender: 'user' | 'assistant'; text: string }[]>([]);
 
-  const handleSendMessage = (message: string) => {
-    const newMessage = { text: message, sender: 'user' };
-    // setMessages([...messages, newMessage]);
-    // Füge hier Logik hinzu, um Nachricht an Backend zu senden
-  };
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import MessageInput from "@/components/message-input";
+
+export default function HomePage() {
+  const router = useRouter();
+
+  async function handleSend(text: string) {
+    // neuen Chat in DB erstellen
+    const res = await fetch("/api/chats", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text }),
+    });
+
+    const chat = await res.json();
+    router.push(`/chat/${chat.id}`);
+  }
+
 
   return (
-    <div className="h-screen flex">
-      <div className="flex flex-col flex-grow">
-        <ChatWindow messages={messages} />
-        <MessageInput onSendMessage={handleSendMessage} />
-      </div>
-    </div>
+    <main className="flex flex-col items-center justify-center h-screen">
+      <h1 className="text-2xl mb-6 font-semibold">Let´s create something big!</h1>
+
+      <MessageInput onSend={handleSend} />
+    </main>
   );
-};
 }

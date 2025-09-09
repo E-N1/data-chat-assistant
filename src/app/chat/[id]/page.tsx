@@ -1,24 +1,24 @@
-import { getChat } from "@/lib/actions";
-import MessageComposer from "./composer";
+import { prisma } from "@/lib/prisma";
 
 export default async function ChatPage({ params }: { params: { id: string } }) {
-  const chat = await getChat(params.id);
-  if (!chat) return <div className="p-6">Chat nicht gefunden.</div>;
+  const chat = await prisma.chat.findUnique({
+    where: { id: params.id },
+    include: { messages: true },
+  });
+
+  if (!chat) return <div>Chat not found</div>;
 
   return (
-    <main className="max-w-2xl mx-auto p-6 space-y-6">
-      <h1 className="text-xl font-semibold">{chat.title}</h1>
+    <div className="p-6">
+      <h1 className="text-lg font-bold mb-4">{chat.title}</h1>
 
-      <section className="space-y-3">
-        {chat.messages.map((m) => (
-          <div key={m.id} className="rounded-xl border p-3">
-            <div className="text-xs opacity-60 mb-1">{m.role}</div>
-            <div>{m.content}</div>
+      <div className="space-y-4">
+        {chat.messages.map((msg) => (
+          <div key={msg.id} className={msg.role === "user" ? "text-blue-600" : "text-gray-800"}>
+            <b>{msg.role}:</b> {msg.content}
           </div>
         ))}
-      </section>
-
-      <MessageComposer chatId={chat.id} />
-    </main>
+      </div>
+    </div>
   );
 }

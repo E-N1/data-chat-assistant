@@ -2,38 +2,27 @@
 // components/MessageInput.tsx
 import React, { useState } from 'react';
 
-type MessageInputProps = {
-  onSendMessage: (message: string) => void;
-};
+export default function MessageInput({ onSend }: { onSend: (text: string) => void }) {
+  const [text, setText] = useState("");
 
-const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
-  const [inputValue, setInputValue] = useState('');
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    if (inputValue.trim()) {
-      onSendMessage(inputValue);
-      setInputValue('');
-    }
-  };
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!text.trim()) return;
+    onSend(text);
+    setText("");
+  }
 
   return (
-    <form className="flex p-4 border-gray-300" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="flex gap-2">
       <input
-        type="text"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
         placeholder="Type your message..."
-        className="flex-grow p-2 border border-gray-300 rounded-md"
+        className="flex-1 border rounded-lg px-4 py-2"
       />
-      <button
-        type="submit"
-        className="ml-10 px-4 py-2 bg-zinc-400 text-white rounded-md hover:bg-zinc-500"
-      >
-        Send
+      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-lg">
+        Senden
       </button>
     </form>
   );
-};
-
-export default MessageInput;
+}

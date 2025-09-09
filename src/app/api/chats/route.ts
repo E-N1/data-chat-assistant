@@ -11,14 +11,27 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    
+    const { message } = body;
 
-    const newChat = await prisma.chat.create({
+    
+    const chat = await prisma.chat.create({
       data: {
-        title: body.title || 'New Chat',
+        title: message.slice(0, 30), // first 30 characters as title
+        messages: {
+          create: {
+            role: "user",
+            content: message,
+          },
+        },
       },
+      include: { messages: true },
     });
+  
 
-    return new Response(JSON.stringify(newChat), {
+
+
+    return new Response(JSON.stringify(chat), {
       status: 201,
       headers: { 'Content-Type': 'application/json' },
     });
