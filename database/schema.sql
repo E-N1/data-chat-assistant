@@ -15,6 +15,19 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO data_chat_assistant;
 
 ALTER ROLE data_chat_assistant CREATEDB;
 
+-- Function to auto-update updated_at column
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+   NEW.updated_at = now();
+   RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER update_chats_updated_at
+BEFORE UPDATE ON chats
+FOR EACH ROW
+EXECUTE PROCEDURE update_updated_at_column();
 
 -- CHATS
 CREATE TABLE IF NOT EXISTS chats (

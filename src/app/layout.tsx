@@ -31,7 +31,7 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSidebar />
 
-          <div className="flex-1 flex flex-col">
+          <div className="flex-2 flex flex-col">
             <SidebarTrigger />
             <main className="flex-1  ">{children}
               {/* <ChatArea /> */}

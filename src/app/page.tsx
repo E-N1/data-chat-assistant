@@ -1,30 +1,28 @@
 "use client";
-
-import { useState } from "react";
+import { CreateChatForm } from "@/lib/create-chat-form";
+import { useChats } from "@/lib/useChats";
 import { useRouter } from "next/navigation";
-import MessageInput from "@/components/message-input";
 
 export default function HomePage() {
   const router = useRouter();
+  const { chats, error } = useChats();
 
-  async function handleSend(text: string) {
-    // neuen Chat in DB erstellen
-    const res = await fetch("/api/chats", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text }),
-    });
-
-    const chat = await res.json();
-    router.push(`/chat/${chat.id}`);
+  if (error) {
+    console.error("Error loading chats:", error);
+    return <div>Failed to load chats</div>;
+  }
+  if (!chats) {
+    console.log("Chats are still loading...");
+    return <div>Loading chats...</div>;
   }
 
-
   return (
-    <main className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl mb-6 font-semibold">Let´s create something big!</h1>
+    <main className="flex flex-col items-center justify-center h-screen gap-6">
+      <h1 className="text-2xl font-semibold">Let's create something big!</h1>
 
-      <MessageInput onSend={handleSend} />
+      <CreateChatForm />
+
+
     </main>
   );
 }

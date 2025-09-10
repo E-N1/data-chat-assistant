@@ -11,39 +11,56 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    
-    const { message } = body;
+    const { id, title, createdAt } = body;
 
-    
+    if (!id || !title || !createdAt) {
+      return new Response(
+        JSON.stringify({ error: "id, title und createdAt sind erforderlich" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     const chat = await prisma.chat.create({
       data: {
-        title: message.slice(0, 30), // first 30 characters as title
-        messages: {
-          create: {
-            role: "user",
-            content: message,
-          },
-        },
+        id,
+        title,
+        createdAt: new Date(createdAt),
       },
-      include: { messages: true },
     });
-  
-
-
 
     return new Response(JSON.stringify(chat), {
       status: 201,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error('Fehler beim Erstellen eines neuen Chats:', error);
+    console.error("Fehler beim Erstellen eines neuen Chats:", error);
 
     return new Response(
-      JSON.stringify({ error: 'Invalid request body or server error' }),
-      {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      }
+      JSON.stringify({ error: "Serverfehler beim Erstellen eines Chats" }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
+  }
+}
+
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
+  try {
+    const body = await req.json();
+    const { title } = body;
+
+    const chat = await prisma.chat.update({
+      where: { id: params.id },
+      data: { title }, // updated_at wird automatisch durch Trigger gesetzt
+    });
+
+    return new Response(JSON.stringify(chat), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Fehler beim Updaten:", error);
+    return new Response(JSON.stringify({ error: "Update fehlgeschlagen" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

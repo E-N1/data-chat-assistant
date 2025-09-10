@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ChatWindow from "./chat-window";
-import MessageInput from "./message-input";
+import MessageInput from "./chat-input";
 
 const messages = [
   { sender: "assistant", text: "Test: DB ENTRIES COMING SOON" },
