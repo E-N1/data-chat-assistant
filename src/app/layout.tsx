@@ -34,7 +34,6 @@ export default function RootLayout({
           <div className="flex-2 flex flex-col">
             <SidebarTrigger />
             <main className="flex-1  ">{children}
-              {/* <ChatArea /> */}
             </main>
           </div>
 
