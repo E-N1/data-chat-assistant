@@ -1,66 +1,26 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma'; // Singleton-Import
+
 
 export async function GET() {
   const chats = await prisma.chat.findMany({
     orderBy: { createdAt: 'desc' },
+    include: { messages: true }
   });
   return NextResponse.json(chats);
 }
 
-export async function POST(req: Request) {
+// POST: Neuen Chat erstellen mit GPT-Titel
+export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { id, title, createdAt } = body;
-
-    if (!id || !title || !createdAt) {
-      return new Response(
-        JSON.stringify({ error: "id, title und createdAt sind erforderlich" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
-    const chat = await prisma.chat.create({
-      data: {
-        id,
-        title,
-        createdAt: new Date(createdAt),
-      },
+    // Chat direkt mit Default-Title erstellen
+    const newChat = await prisma.chat.create({
+      data: { title: "New chat" },
     });
 
-    return new Response(JSON.stringify(chat), {
-      status: 201,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(newChat);
   } catch (error) {
-    console.error("Fehler beim Erstellen eines neuen Chats:", error);
-
-    return new Response(
-      JSON.stringify({ error: "Serverfehler beim Erstellen eines Chats" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
-  }
-}
-
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
-  try {
-    const body = await req.json();
-    const { title } = body;
-
-    const chat = await prisma.chat.update({
-      where: { id: params.id },
-      data: { title }, // updated_at wird automatisch durch Trigger gesetzt
-    });
-
-    return new Response(JSON.stringify(chat), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  } catch (error) {
-    console.error("Fehler beim Updaten:", error);
-    return new Response(JSON.stringify({ error: "Update fehlgeschlagen" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("POST /api/chats error:", error);
+    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
   }
 }

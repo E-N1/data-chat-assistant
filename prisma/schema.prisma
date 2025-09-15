@@ -18,6 +18,7 @@ model Chat {
   id        String    @id @default(uuid())
   title     String
   createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   messages  Message[]
 }
 
@@ -37,10 +38,11 @@ model Memory {
   type       String?
   importance Int?
   createdAt  DateTime @default(now())
-  embedding  Bytes? // VECTOR(1536) is treated as bytes
+  embedding  Bytes? 
   messageId  String?
-  message    Message? @relation(fields: [messageId], references: [id])
+  message    Message? @relation(fields: [messageId], references: [id], onDelete: SetNull)
 }
+
 
 // Supabase:
 //generator client {

@@ -1,4 +1,9 @@
+// app/chat/[id]/page.tsx
 import { prisma } from "@/lib/prisma";
+import ChatClient from "./chat-client";
+
+
+type Message = { id: string; content: string; role: "user" | "assistant" };
 
 export default async function ChatPage({ params }: { params: { id: string } }) {
   const chat = await prisma.chat.findUnique({
@@ -8,17 +13,6 @@ export default async function ChatPage({ params }: { params: { id: string } }) {
 
   if (!chat) return <div>Chat not found</div>;
 
-  return (
-    <div className="p-6">
-      <h1 className="text-lg font-bold mb-4">{chat.title}</h1>
-
-      <div className="space-y-4">
-        {chat.messages.map((msg) => (
-          <div key={msg.id} className={msg.role === "user" ? "text-blue-600" : "text-gray-800"}>
-            <b>{msg.role}:</b> {msg.content}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  // Nur Daten weitergeben
+  return <ChatClient chat={chat} />;
 }

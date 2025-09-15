@@ -1,7 +1,7 @@
 "use client";
 import { useChats } from "@/lib/useChats";
 import { useRouter } from "next/navigation";
-import { ChatInput } from "@/components/chat-input";
+import { ChatInput } from "@/components/chatarea/chat-input";
 
 export function CreateChatForm() {
   const { createChat } = useChats();
@@ -14,7 +14,7 @@ export function CreateChatForm() {
     }
   
     try {
-      const res = await fetch("/api/create-title", {
+      const res = await fetch("/api/gpt/create-title", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message }),
