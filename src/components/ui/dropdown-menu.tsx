@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react"
 import { Pen, Trash } from "@phosphor-icons/react";
+import router from "next/router";
 
 type ChatItemProps = {
   chat: { id: string; title: string }
@@ -23,12 +24,12 @@ export function ChatItem({ chat, onEdit, onDelete }: ChatItemProps) {
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
-
+ 
   return (
     <div ref={ref} className="relative group flex items-center">
       {/* Chat Button */}
       <button
-        onClick={() => console.log(`Chat selected: ${chat.id}`)}
+        onClick={() => router.push(`/chat/[id]/${chat}`)} // ✅ Hier navigieren
         className="flex-1 text-left p-2 rounded-sm hover:bg-blue-200"
       >
         {chat.title}

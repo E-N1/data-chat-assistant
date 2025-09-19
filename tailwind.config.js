@@ -5,7 +5,16 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
     ],
     theme: {
-    extend: {},
-    },
+        extend: {
+          animation: {
+            bounce: 'bounce 1s infinite',
+          },
+          transitionDelay: {
+            150: '150ms',
+            300: '300ms',
+          },
+        },
+      },
     plugins: [],
+
 };

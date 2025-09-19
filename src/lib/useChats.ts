@@ -13,17 +13,12 @@ export function useChats() {
     const now = today.toISOString();
   
     const createChat = async (title: string, message?: string) => {
-      const uuid = uuidv4();
       const response = await fetch("/api/chats", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: uuid,
-          title,
-          createdAt: now,
-          message, 
-        }),
+        body: JSON.stringify({ title, message }),
       });
+      console.log("Response from /api/chats:", response);
   
       if (!response.ok) throw new Error("Failed to create chat");
       const newChat = await response.json();

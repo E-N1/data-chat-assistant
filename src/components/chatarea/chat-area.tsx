@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ChatWindow from "./chat-window";
+import { ChatInput } from "./chat-input";
 
 type Message = { id: string; content: string; sender: "user" | "assistant" };
 

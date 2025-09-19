@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useSidebar } from "@/components/ui/sidebar";
 
 interface ChatInputProps {
   placeholder: string;
@@ -9,42 +10,38 @@ interface ChatInputProps {
 
 export function ChatInput({ placeholder, buttonLabel, onSubmit }: ChatInputProps) {
   const [value, setValue] = useState("");
+  const { state, isMobile } = useSidebar();
+
+  const sidebarWidthDesktop = 280; // gleiche Maße wie --sidebar-width
+  const marginLeft = isMobile ? 0 : state === "collapsed" ? 60 : sidebarWidthDesktop;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!value.trim()) return;
-    onSubmit(value); // <-- value wird übergeben
+    onSubmit(value);
     setValue("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 p-2">
+    <form
+      onSubmit={handleSubmit}
+      className="fixed bottom-0 left-0 right-0 flex gap-4 p-7 gap-8 bg-white"
+      style={{ marginLeft, transition: "margin-left 0.2s ease" }}
+    >
       <input
         type="text"
         placeholder={placeholder}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="flex-1 border rounded-lg p-2"
+        className="flex-1 border rounded-full p-2 px-4"
       />
-      <button type="submit" className="bg-blue-600 text-white px-4 rounded-lg">
+      <button
+        type="submit"
+        className="bg-blue-500 text-white px-4 rounded-xl hover:bg-blue-700"
+        
+      >
         {buttonLabel}
       </button>
     </form>
   );
 }
-
-/**
-      <Button
-        variant="primary"
-        size="lg"
-        onClick={async () => {
-          const newChat = await createChat("New Chat from HomePage");
-          console.log("New chat created:", newChat);
-          router.push(`/chat/${newChat.id}`);
-        }}
-      >
-        Start a New Chat
-      </Button>
- 
-
- */

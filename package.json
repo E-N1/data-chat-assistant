@@ -1,12 +1,13 @@
 {
-  "name": "data-chat-assistant",
+  "name": "local-assistant",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "biome check",
+    "format": "biome format --write"
   },
   "dependencies": {
     "@prisma/client": "^6.14.0",

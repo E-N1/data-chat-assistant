@@ -3,12 +3,12 @@ CREATE EXTENSION IF NOT EXISTS vector;
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 
-GRANT CONNECT ON DATABASE ai_assistant_test TO data_chat_assistant;
-CREATE ROLE IF NOT EXISTS data_chat_assistant WITH LOGIN PASSWORD '1234567890';
+--GRANT CONNECT ON DATABASE localAssistant TO localAssistant;
+--CREATE ROLE IF NOT EXISTS data_chat_assistant WITH LOGIN PASSWORD '1234567890';
 
-GRANT CONNECT ON DATABASE ai_assistant_test TO data_chat_assistant;
-GRANT USAGE ON SCHEMA public TO data_chat_assistant;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO data_chat_assistant;
+--GRANT CONNECT ON DATABASE localAssistant TO data_chat_assistant;
+--GRANT USAGE ON SCHEMA public TO data_chat_assistant;
+--GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO data_chat_assistant;
 
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO data_chat_assistant;
@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS messages (
     chat_id UUID REFERENCES chats(id) ON DELETE CASCADE,
     content TEXT NOT NULL,
     metadata JSONB,
+    role TEXT CHECK (role IN ('user', 'assistant')) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
 

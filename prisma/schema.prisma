@@ -27,6 +27,7 @@ model Message {
   chatId    String
   chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
   content   String
+  role      String
   metadata  Json?
   createdAt DateTime @default(now())
   memories  Memory[]

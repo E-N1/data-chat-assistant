@@ -1,4 +1,16 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LocalAssistant 
+## Features
+
+- **ChatGPT-like interface**
+- **Persistent conversations**
+  - All messages are stored in a PostgreSQL database.
+  - Each chat has its own unique ID and timestamp.
+  - Supports multiple chats with history.
+- **Future: Local document search**
+  - Worker to search all documents on your PC using regex patterns.
+  - Returns matched text along with file paths.
+  - Integrates with chat so you can query your own files conversationally.
+
 
 ## Getting Started
 Make sure you have Docker desktop on your PC.
@@ -19,27 +31,19 @@ chmod +x start.sh
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Docker:
 
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-
-## Database:
-
-to connect database in docker:
+to connect the database-container in docker:
 
 ```
 docker exec -it <container_name> psql -U <POSTGRES_USER> -d <POSTGRES_DB>
+```
+
+to connect the nextjs-container in docker:
+
+```
+docker exec -it localAssistant_nextjs sh
 ```
 
 
@@ -57,3 +61,11 @@ Maintenance database / Database: (from POSTGRES_DB, .env)
 http://localhost:8080
 ```
 
+
+## Learn More
+
+To learn more about Next.js, Postgres and Docker, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [PostgresSQL Documentation](https://www.postgresql.org/docs/current/) 
+- [Docker Documentation](https://docs.docker.com)

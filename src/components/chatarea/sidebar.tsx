@@ -7,41 +7,42 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
-  SidebarMenuAction,
-  SidebarMenuButton,
-  SidebarMenuItem,
+
 } from '@/components/ui/sidebar';
 import { useChats } from "@/lib/useChats";
 import { ChatItem } from "../ui/dropdown-menu";
-import { GearIcon } from "@phosphor-icons/react/dist/ssr";
+import { SettingsMenu } from "../settings-menu/settings";
+import { useRouter } from "next/navigation";
+
 
 
 
 export function AppSidebar() {
   const { chats, error, createChat } = useChats();
+  const router = useRouter(); 
 
   if (error) return <div>Failed to load chats</div> ;
-  if (!chats) return <div>Loading...</div>;
-
+  if (!chats) return <div>No chats found in database</div> ;
   
   return (
     <Sidebar>
       <SidebarHeader>
-      <div className="p-4 font-bold text-lg">
-        <Link href="/">My AI Assistant</Link>
-      </div>
+      <div className="p-4 font-extrabold text-xl bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500  ">
+  <Link href="/">Local Assistant</Link>
+</div>
+      {/* new chat button */}
       <SidebarGroup>
           <button
-              onClick={async () => {
-                try {
-                  const newChat = await createChat("New Chat"); // 
-                  console.log("Chat erstellt:", newChat);
-                  // router.push(`/chat/${newChat.id}`); // optional
-                } catch (err) {
-                  console.error("Fehler beim Erstellen:", err);
-                }
-              }}
-            >
+            onClick={async () => {
+              try {
+                const newChat = await createChat("New Chat"); 
+                console.log("Chat created:", newChat);
+                router.push(`/chat/${newChat.id}`); // ✅ Navigation nach Chat
+              } catch (err) {
+                console.error("Error creating chat:", err);
+              }
+            }}
+          >
               <div className="w-full text-left p-2 rounded-sm hover:bg-blue-200">
                 + New chat
               </div>
@@ -50,11 +51,11 @@ export function AppSidebar() {
 
           <SidebarGroup>
             <div className="p text-gray-500 text-sm">Chats</div>
-
           </SidebarGroup>
       </SidebarHeader>
+      
         <SidebarContent>
-
+          {/* chat-hover functions */}
               <div className="p-2 text-sm flex flex-col gap-2">
             {chats.map((chat:any) => (
               <ChatItem
@@ -67,16 +68,14 @@ export function AppSidebar() {
             ))}
           </div>
         </SidebarContent>
-      <SidebarFooter>
-        <div className="p-4 border-t border-gray-700">
-          <a href="/settings" className="block hover:underline">
-            <div className="flex items-center gap-2">
-              <span><GearIcon size={20} /></span>
-              Settings
+
+        <SidebarFooter>
+            <div className="pt-3 border-t border-gray-700">
+
+              <SettingsMenu />
+
             </div>
-          </a>
-        </div>
-      </SidebarFooter>
+        </SidebarFooter>
     </Sidebar>
   );
 }

@@ -1,18 +1,19 @@
 // app/chat/[id]/page.tsx
 import { prisma } from "@/lib/prisma";
 import ChatClient from "./chat-client";
+  await new Promise(res => setTimeout(res, 1500)); 
 
-
-type Message = { id: string; content: string; role: "user" | "assistant" };
 
 export default async function ChatPage({ params }: { params: { id: string } }) {
+  const { id } = await params;
+
   const chat = await prisma.chat.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: { messages: true },
   });
 
   if (!chat) return <div>Chat not found</div>;
-
-  // Nur Daten weitergeben
+  console.log("Chat found:", chat);
+  // Only Data fetching on server, rest is client-side
   return <ChatClient chat={chat} />;
 }

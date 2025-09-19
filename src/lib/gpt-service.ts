@@ -21,7 +21,7 @@ export async function generateChatTitle(message: string): Promise<string> {
     max_tokens: 20,
   });
 
-  // nur die ersten 4 Wörter verwenden
+  // Only take the first 4 words of the response
   const title = response.choices[0].message?.content?.trim().split(/\s+/).slice(0, 4).join(" ") || "New chat";
   return title;
 }
@@ -34,9 +34,11 @@ export async function generateGPTResponse(message: string): Promise<string> {
 
   const response = await client.chat.completions.create({
     model: "gpt-4o-mini",
+
     messages: [
-      { role: "system", content: "You are a helpful assistant." },
       { role: "user", content: message },
+      { role: "system", content: "You are a helpful assistant." }
+      
     ],
   });
 

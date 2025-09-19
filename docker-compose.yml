@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.db
-    container_name: ai_db
+    container_name: localAssistant_db
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -19,7 +19,7 @@ services:
       
   pgadmin:
     image: dpage/pgadmin4:7
-    container_name: ai_pgadmin
+    container_name: localAssistant_pgadmin
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
@@ -35,7 +35,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.nextjs
-    container_name: ai_nextjs
+    container_name: localAssistant_nextjs
     restart: always
     depends_on:
       - db

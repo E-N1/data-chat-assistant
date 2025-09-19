@@ -18,9 +18,11 @@ export default function HomePage() {
 
   return (
     <main className="flex flex-col items-center justify-center h-screen gap-6">
-      <h1 className="text-2xl font-semibold">Let's create something big!</h1>
+      <div className="flex text-center">
+        <h1 className="text-2xl font-semibold">Let's create something big!</h1>
+        <CreateChatForm />
+      </div>
 
-      <CreateChatForm />
 
 
     </main>
